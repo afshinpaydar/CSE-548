@@ -26,7 +26,7 @@ class Firewall (EventMixin):
 
 	def __init__ (self,l2config,l3config):
 		self.listenTo(core.openflow)
-		self.disbaled_MAC_pair = [] # Shore a tuple of MAC pair which will be installed into the flow table of each switch.
+		self.disabled_MAC_pair = [] # Shore a tuple of MAC pair which will be installed into the flow table of each switch.
 
                 # Anti-spoofing Port Security.
                 # 
@@ -84,7 +84,7 @@ class Firewall (EventMixin):
                                 else:
                                     mac_1 = None
 				# Append to the array storing all MAC pair.
-				self.disbaled_MAC_pair.append((mac_0,mac_1))
+				self.disabled_MAC_pair.append((mac_0,mac_1))
 
 		with open(l3config) as csvfile:
 			log.debug("Reading log file !")
@@ -209,12 +209,12 @@ class Firewall (EventMixin):
 		''' Add your logic here ... '''
 
 		'''
-		Iterate through the disbaled_MAC_pair array, and for each
+		Iterate through the disabled_MAC_pair array, and for each
 		pair we install a rule in each OpenFlow switch
 		'''
 		self.connection = event.connection
 
-		#for (source, destination) in self.disbaled_MAC_pair:
+		#for (source, destination) in self.disabled_MAC_pair:
 
                 for spoofmac, spoofvalues in self.SpoofingTable.items():
 
@@ -307,7 +307,6 @@ class Firewall (EventMixin):
                             srcip = str(ip_packet.srcip)
                             dstip = str(ip_packet.dstip)
                             self.addRuleToCSV ('any', srcip, dstip)
-                            #return False
                     # The flow is a new legitimate one. Adding it to the table and allowing the packet.
                     self.SpoofingTable [packet.src] = [ip_packet.srcip, ip_packet.dstip, event.port]
                     log.debug("Adding Port Security entry: %s, %s, %s, %s" %
@@ -336,7 +335,7 @@ class Firewall (EventMixin):
                             srcip = None
                             dstip = str(ip_packet.dstip)
                             self.addRuleToCSV (srcmac, 'any', dstip)
-                            #return False
+                            return False
                         # Second: flow has been seen on a different port. This is likely a routing or spanning tree problem,
                         # more hardly an attack. Without better knowledge of the topology, we need to allow the flow for this lab.
                         if newport != event.port:
@@ -382,11 +381,6 @@ class Firewall (EventMixin):
                         log.debug("No Attack detected - flow to be allowed")
                     else:
                         log.debug("Attack detected - flow to be blocked")
-
-		    #ip_packet = packet.payload
-		    #print "Ip_packet.protocol = ", ip_packet.protocol
-		    #if ip_packet.protocol == ip_packet.TCP_PROTOCOL:
-		#	log.debug("TCP it is !")
    
 		    self.replyToIP(packet, match, event)
 
