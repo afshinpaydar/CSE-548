@@ -26,7 +26,7 @@ class Firewall (EventMixin):
 
 	def __init__ (self,l2config,l3config):
 		self.listenTo(core.openflow)
-		#self.disbaled_MAC_pair = [] # Shore a tuple of MAC pair which will be installed into the flow table of each switch.
+		self.disbaled_MAC_pair = [] # Shore a tuple of MAC pair which will be installed into the flow table of each switch.
 
                 # Anti-spoofing Port Security.
                 # 
