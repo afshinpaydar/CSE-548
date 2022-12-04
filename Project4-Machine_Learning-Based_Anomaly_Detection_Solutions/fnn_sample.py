@@ -12,31 +12,32 @@ Updated on Wed Jan 29 10:18:09 2020
 #######################################
 
 # To load a dataset file in Python, you can use Pandas. Import pandas using the line below
-import pandas as pd
+#import pandas as pd
 # Import numpy to perform operations on the dataset
-import numpy as np
+#import numpy as np
 
 # Controls which scenario we want to run.
 # Accepts a, b or c as input
-ScenarioA = ['Training-a1-a3', 'Testing-a2-a4']
-ScenarioB = ['Training-a1-a2', 'Testing-a1']
-ScenarioC = ['Training-a1-a2', 'Testing-a1-a2-a3']
+#ScenarioA = ['Training_a1_a3', 'Testing_a2_a4']
+#ScenarioB = ['Training_a1_a2', 'Testing_a1']
+#ScenarioC = ['Training_a1_a2', 'Testing_a1_a2_a3']
 
 while 1:
     Scenario = input ('Please enter the scenario you wish to run - either a, b or c:')
 
     if Scenario.lower() == 'a':
-        TrainingData = ScenarioA[0]
-        TestingData  = ScenarioA[1]
+        TrainingData = 'Training_a1_a3'
+        TestingData  = 'Testing_a2_a4'
         break
     elif Scenario.lower() == 'b':
-        TrainingData = ScenarioB[0]
-        TestingData  = ScenarioB[1]
+        TrainingData = 'Training_a1_a2'
+        TestingData  = 'Testing_a1'
         break
     elif Scenario.lower() == 'c':
-        TrainingData = ScenarioC[0]
-        TestingData  = ScenarioC[1]
+        TrainingData = 'Training_a1_a2'
+        TestingData  = 'Testing_a1_a2_a3'
         break
+
 
 # Batch Size
 BatchSize=10
@@ -49,8 +50,8 @@ NumEpoch=10
 # reference: https://www.shanelynn.ie/select-pandas-dataframe-rows-and-columns-using-iloc-loc-and-ix/
 
 import data_preprocessor as dp
-X_train, y_train = dp.get_processed_data(TrainingData+'.csv', './categoryMappings/', classType ='binary')
-X_test,  y_test  = dp.get_processed_data(TestingData+'.csv',  './categoryMappings/', classType ='binary')
+X_train, y_train = dp.get_processed_data(TrainingData + ".csv", './categoryMappings/', classType ='binary')
+X_test,  y_test  = dp.get_processed_data(TestingData + ".csv", './categoryMappings/', classType ='binary')
 
 # The next section from fnn_sample.py is not required, as data is already preprocessed
 
