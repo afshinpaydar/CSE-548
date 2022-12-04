@@ -18,9 +18,6 @@ Updated on Wed Jan 29 10:18:09 2020
 
 # Controls which scenario we want to run.
 # Accepts a, b or c as input
-#ScenarioA = ['Training_a1_a3', 'Testing_a2_a4']
-#ScenarioB = ['Training_a1_a2', 'Testing_a1']
-#ScenarioC = ['Training_a1_a2', 'Testing_a1_a2_a3']
 
 while 1:
     Scenario = input ('Please enter the scenario you wish to run - either a, b or c:')
